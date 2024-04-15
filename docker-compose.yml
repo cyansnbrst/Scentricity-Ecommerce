@@ -1,0 +1,108 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./scentricity_backend:/backend
+    environment:
+      DB_HOST: database
+      DB_NAME: scents
+      DB_USER: scent_user
+      DB_PASS: password
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    networks:
+      - scentricity_network
+    depends_on:
+      - database
+
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "scents"
+      POSTGRES_USER: "scent_user"
+      POSTGRES_PASSWORD: "password"
+    ports:
+      - "9999:5432"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    networks:
+      - scentricity_network
+
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./scentricity_frontend:/frontend
+    command: >
+      sh -c "npm run serve"
+    networks:
+      - scentricity_network
+    depends_on:
+      - backend
+
+  stripe:
+    image: stripe/stripe-cli:latest
+    entrypoint: /bin/sh
+    tty: true
+    stdin_open: true
+    volumes:
+      - ~/.config/stripe:/root/.config/stripe
+    networks:
+      - scentricity_network
+    depends_on:
+      - backend
+
+  redis:
+    image: redis:7.0.5-alpine
+    hostname: redis
+    networks:
+      - scentricity_network
+
+  worker:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.app worker --loglevel=info
+    volumes:
+      - ./scentricity_backend:/backend
+    networks:
+      - scentricity_network
+    links:
+      - redis
+    depends_on:
+      - redis
+
+  flower:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    hostname: flower
+    entrypoint: celery
+    command: -A celery_app.app flower
+    volumes:
+      - ./scentricity_backend:/backend
+    networks:
+      - scentricity_network
+    links:
+      - redis
+    depends_on:
+      - redis
+    ports:
+      - "5555:5555"
+
+volumes:
+  pg_data:
+
+networks:
+  scentricity_network:
+    driver: bridge
