@@ -1,49 +1,62 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
-from cart.models import Cart, CartItem, Product
-from cart.serializers import CartItemSerializer, CartSerializer
+from cart.serializers import CartSerializer, CartItemSerializer
+from tests.utils import CartTestDataMixin
 
 
-class CartItemSerializerTestCase(TestCase):
+class CartSerializerTestCase(TestCase, CartTestDataMixin):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='12345')
-        self.product = Product.objects.create(name='Test Product', price=10.00, quantity=20)
-        self.cart_item = CartItem.objects.create(product=self.product, quantity=2)
+        self.user, self.cart, \
+            self.cart_item1, self.cart_item2, self.cart_item3, self.cart_item4 = self.create_cart_test_data()
 
-    def test_cart_item_serializer(self):
-        serializer = CartItemSerializer(self.cart_item)
+    def test_cart_serializer(self):
+        serializer = CartSerializer(instance=self.cart)
         serialized_data = serializer.data
 
+        expected_total_price = self.cart.total_price()
+
         expected_data = {
-            'product': self.product.id,
-            'quantity': 2,
-            'subtotal': '20.00'
+            'user': self.user.id,
+            'total_price': expected_total_price,
+            'items': [
+                {
+                    'product': self.cart_item4.product.id,
+                    'quantity': self.cart_item4.quantity,
+                    'subtotal': self.cart_item4.subtotal()
+                },
+                {
+                    'product': self.cart_item3.product.id,
+                    'quantity': self.cart_item3.quantity,
+                    'subtotal': self.cart_item3.subtotal()
+                },
+                {
+                    'product': self.cart_item2.product.id,
+                    'quantity': self.cart_item2.quantity,
+                    'subtotal': self.cart_item2.subtotal()
+                },
+                {
+                    'product': self.cart_item1.product.id,
+                    'quantity': self.cart_item1.quantity,
+                    'subtotal': self.cart_item1.subtotal()
+                }
+            ]
         }
 
         self.assertEqual(serialized_data, expected_data)
 
 
-class CartSerializerTestCase(TestCase):
+class CartItemSerializerTestCase(TestCase, CartTestDataMixin):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='12345')
-        self.product = Product.objects.create(name='Test Product', price=10.00, quantity=20)
-        self.cart = Cart.objects.create(user=self.user)
-        self.cart_item = CartItem.objects.create(cart=self.cart, product=self.product, quantity=2)
+        self.user, self.cart, \
+            self.cart_item1, self.cart_item2, self.cart_item3, self.cart_item4 = self.create_cart_test_data()
 
-    def test_cart_serializer(self):
-        serializer = CartSerializer(self.cart)
+    def test_cart_item_serializer(self):
+        serializer = CartItemSerializer(instance=self.cart_item1)
         serialized_data = serializer.data
 
         expected_data = {
-            'user': self.user.id,
-            'total_price': '20.00',
-            'items': [
-                {
-                    'product': self.product.id,
-                    'quantity': 2,
-                    'subtotal': '20.00'
-                }
-            ]
+            'product': self.cart_item1.product.id,
+            'quantity': self.cart_item1.quantity,
+            'subtotal': self.cart_item1.subtotal()
         }
 
         self.assertEqual(serialized_data, expected_data)

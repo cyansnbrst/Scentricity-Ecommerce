@@ -82,6 +82,8 @@ class CartItemAPIView(APIView):
 
             try:
                 item_in_cart.save()
+                serialized_item = CartItemSerializer(item_in_cart)
+                return Response(serialized_item.data, status=status.HTTP_200_OK)
             except IntegrityError:
                 return Response({"error": "Failed to save cart item"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

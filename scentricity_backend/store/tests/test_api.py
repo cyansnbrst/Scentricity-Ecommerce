@@ -20,7 +20,6 @@ class ProductApiTestCase(APITestCase, ProductTestDataMixin):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
-
     def test_get_single_product(self):
         product_url = reverse('product-detail', args=[self.product1.pk])
         response = self.client.get(product_url)
