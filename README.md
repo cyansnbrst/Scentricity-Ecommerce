@@ -10,3 +10,8 @@ An e-commerce application for the Scentriciry perfume store
 - api/v1/cart/ [GET] - get current user's cart
   - change/<str:action>/<int:product_id>/ [PUT] - add or delete item from the cart
   - delete/<int:product_id>/ [DELETE] - delete all items of the same product from the cart
+- api/v1/payment/create_checkout_session/ [POST] - creates a checkout session for the current user
+- api/v1/orders/
+  - my_orders/ [GET] - retrieves orders for the current user
+  - order_info_stripe_webhook/ [POST + stripe request] - stripe webhook handler
+- api/v1/products/ - get list/retrieve items from the store
