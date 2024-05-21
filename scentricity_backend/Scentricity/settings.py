@@ -48,11 +48,12 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://176.109.99.199",
-    "https://176.109.99.199",
-    "http://localhost:8080"
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://176.109.99.199",
+#     "https://176.109.99.199",
+#     "http://localhost:8080"
+# ]
+CORS_ALLOW_ALL_ORIGINS: True
 
 ROOT_URLCONF = 'Scentricity.urls'
 
