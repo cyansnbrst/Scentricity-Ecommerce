@@ -50,6 +50,10 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://176.109.99.199",
+    "https://176.109.99.199",
+    "http://176.109.99.199:8080"
+    "https://176.109.99.199:8080"
+    "http://localhost:8080"
 ]
 
 ROOT_URLCONF = 'Scentricity.urls'
