@@ -14,8 +14,6 @@ services:
       DB_PASS: password
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
-    networks:
-      - scentricity_network
     depends_on:
       - database
 
@@ -29,8 +27,6 @@ services:
       - "9999:5432"
     volumes:
       - ./pg_data:/var/lib/postgresql/data
-    networks:
-      - scentricity_network
 
 
   frontend:
@@ -43,8 +39,6 @@ services:
       - ./scentricity_frontend:/frontend
     command: >
       sh -c "npm run serve"
-    networks:
-      - scentricity_network
     depends_on:
       - backend
 
@@ -55,14 +49,8 @@ services:
     stdin_open: true
     volumes:
       - ~/.config/stripe:/root/.config/stripe
-    networks:
-      - scentricity_network
     depends_on:
       - backend
 
 volumes:
   pg_data:
-
-networks:
-  scentricity_network:
-    driver: bridge
