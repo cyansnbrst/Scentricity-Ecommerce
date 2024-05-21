@@ -49,7 +49,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://176.109.99.199:8080/",
+    "http://176.109.99.199:8080",
 ]
 
 CORS_ALLOW_ALL_ORIGINS: True
