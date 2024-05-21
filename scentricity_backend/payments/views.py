@@ -16,7 +16,7 @@ class CreateCheckoutSession(APIView):
     * Requires authentication.
     """
     permission_classes = [IsAuthenticated]
-    FRONTEND_DOMAIN = "http://localhost:8080/#/checkout"
+    FRONTEND_DOMAIN = "176.109.99.199:8080/#/checkout"
 
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):

@@ -2,7 +2,7 @@ import {createStore} from 'vuex';
 
 export default createStore({
     state: {
-        backendURL: 'http://127.0.0.1:8000/api/v1',
+        backendURL: '176.109.99.199:8000/api/v1',
         authToken: null,
     },
     mutations: {

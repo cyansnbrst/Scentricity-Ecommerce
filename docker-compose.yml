@@ -60,46 +60,6 @@ services:
     depends_on:
       - backend
 
-  redis:
-    image: redis:7.0.5-alpine
-    hostname: redis
-    networks:
-      - scentricity_network
-
-  worker:
-    build:
-      context: .
-      dockerfile: backend.Dockerfile
-    hostname: worker
-    entrypoint: celery
-    command: -A celery_app.app worker --loglevel=info
-    volumes:
-      - ./scentricity_backend:/backend
-    networks:
-      - scentricity_network
-    links:
-      - redis
-    depends_on:
-      - redis
-
-  flower:
-    build:
-      context: .
-      dockerfile: backend.Dockerfile
-    hostname: flower
-    entrypoint: celery
-    command: -A celery_app.app flower
-    volumes:
-      - ./scentricity_backend:/backend
-    networks:
-      - scentricity_network
-    links:
-      - redis
-    depends_on:
-      - redis
-    ports:
-      - "5555:5555"
-
 volumes:
   pg_data:
 

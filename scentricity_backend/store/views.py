@@ -6,6 +6,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from store.models import Product
 from store.serializers import ProductSerializer
 
+
 class ProductViewSet(ReadOnlyModelViewSet):
     """
     A viewset for viewing products. Read-only.

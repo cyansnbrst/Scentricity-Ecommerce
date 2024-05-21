@@ -40,7 +40,6 @@ class CartAPITestCase(APITestCase, ProductTestDataMixin):
         self.assertEqual(cart_item.quantity, 2)
 
     def test_delete_item_from_cart(self):
-        # Add an item to the cart
         cart = Cart.objects.create(user=self.user)
         cart_item = CartItem.objects.create(cart=cart, product=self.product1)
 
