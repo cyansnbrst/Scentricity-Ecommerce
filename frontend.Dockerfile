@@ -8,3 +8,5 @@ COPY scentricity_frontend/package*.json ./
 RUN npm install
 
 COPY scentricity_frontend /frontend
+
+CMD ["npm", "run", "serve"]

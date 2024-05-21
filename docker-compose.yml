@@ -37,8 +37,7 @@ services:
       - "8080:8080"
     volumes:
       - ./scentricity_frontend:/frontend
-    command: >
-      sh -c "npm /node_modules/@vue/cli-service/bin/vue-cli-service.js serve"
+      - /frontend/node_modules
     depends_on:
       - backend
 
