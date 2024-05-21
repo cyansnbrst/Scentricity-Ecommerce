@@ -37,8 +37,8 @@ services:
       - "8080:8080"
     volumes:
       - ./scentricity_frontend:/frontend
-    command: >
-      sh -c "npm run serve"
+#    command: >
+#      sh -c "npm run serve"
     depends_on:
       - backend
 

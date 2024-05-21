@@ -5,6 +5,6 @@ EXPOSE 8080
 
 COPY scentricity_frontend/package*.json ./
 
-RUN npm install
+#RUN npm install
 
 COPY scentricity_frontend /frontend
