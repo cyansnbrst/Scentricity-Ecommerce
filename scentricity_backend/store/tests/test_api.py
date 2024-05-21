@@ -14,7 +14,7 @@ class ProductApiTestCase(APITestCase, ProductTestDataMixin):
         response = self.client.get(url)
 
         serializer_context = {'request': response.wsgi_request}
-        serializer = ProductSerializer([self.product1, self.product2, self.product3, self.product4], many=True,
+        serializer = ProductSerializer([self.product4, self.product3, self.product2, self.product1], many=True,
                                        context=serializer_context)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
