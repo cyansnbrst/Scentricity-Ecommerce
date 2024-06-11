@@ -97,7 +97,7 @@ export default {
 .auth-form {
   max-width: 400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 50px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
@@ -111,7 +111,7 @@ export default {
 }
 
 .auth-input {
-  width: 100%;
+  width: 95%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
